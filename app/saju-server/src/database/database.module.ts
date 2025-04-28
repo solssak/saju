@@ -7,9 +7,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
+      useFactory: (configService: ConfigService) => {
+        const nodeEnv = configService.get<string>('NODE_ENV');
+        return {
+          uri:
+            nodeEnv === 'production'
+              ? configService.get<string>('MONGODB_URI')
+              : configService.get<string>('MONGODB_LOCAL_URI'),
+        };
+      },
     }),
   ],
 })
