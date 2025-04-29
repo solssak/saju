@@ -12,6 +12,7 @@ import * as Joi from '@hapi/joi';
         MONGODB_URI: Joi.string().required(),
         BACKEND_PORT: Joi.number().required(),
       }),
+      isGlobal: true,
     }),
     DatabaseModule,
     UsersModule,
